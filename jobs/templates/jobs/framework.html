@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-181039223-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-181039223-1');
+    </script>
+    <title>Brenden Price</title>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+    .breadcrumb li:hover{
+      text-decoration: underline;
+    }
+    .breadcrumb-item + .breadcrumb-item::before{
+      content: "»";
+    }
+    </style>
+  </head>
+
+  <body>
+
+    <main role="main">
+      <!--Section about framework-->
+      <section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading">{{framework.framework}}</h1>
+
+          <img src="{{framework.image.url}}" height="300" />
+          <p class="lead text-muted"></p>
+          <p>
+            <a href="{% url 'home' %}" class="btn btn-primary my-2">Back</a>
+          </p>
+        </div>
+      </section>
+
+      <div class="album py-5 bg-light">
+        <div class="container">
+          <!--Creating breadcrumbs-->
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item"><a href="{% url 'language details' framework.language.id %}">{{framework.language}}</a></li>
+              <li class="breadcrumb-item active" aria-current="page">{{framework.framework}}</li>
+            </ol>
+          </nav>
+          <!--end breadcrumbs-->
+          <div class="row">
+            <!--loop through all projects with a framework-->
+            {% for projects in projects.all %}
+            {% if projects.framework.framework == framework.framework %} <!--only display if in correct framework-->
+            <div class="col-md-4">
+              <div class="card mb-4 box-shadow">
+                <a href="{% url 'framework project details' projects.id %}">
+                  <img class="card-img-top" src="{{ projects.image.url }}" height="391.2px" width = "348px" style="margin-bottom:25px;">
+                </a>
+                <div class="card-body">
+                  <a href="{% url 'framework project details' projects.id %}">
+                  <center>
+                      <h5 class="card-title card-link">{{ projects.job }}</p>
+                  </center>
+                  <p class="card-text text-muted text-right">{{ projects.submissionDate }}</p>
+                </a>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            <!--end loop-->
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static 'js/bootstrap.js' %}" ></script>
+    <script src="{% static 'jquery-3.3.1.min.js' %}" ></script>
+  </body>
+</html>

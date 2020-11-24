@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-181039223-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-181039223-1');
+    </script>
+    <title>Brenden Price</title>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+    .breadcrumb li:hover{
+      text-decoration: underline;
+    }
+    .breadcrumb-item + .breadcrumb-item::before{
+      content: "»";
+    }
+    </style>
+  </head>
+
+  <body>
+
+    <main role="main">
+      <!--section about the project-->
+      <section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading">{{ project_detail.job }}</h1>
+          <img src="{{ project_detail.image.url }}" height="300" />
+          <p class="lead text-muted">{{ project_detail.summary }}</p>
+          <p>
+            <a href="{% url 'home' %}" class="btn btn-primary my-2">Back</a>
+          </p>
+        </div>
+      </section>
+
+      <div class="album py-5 bg-light">
+        <div class="container">
+          <!--Creating breadcrumbs-->
+
+
+              {% if project_detail.language %}<!--Creating breadcrumbs for if no framework-->
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/">Home</a></li>
+                  <li class="breadcrumb-item"><a href="{% url 'language details' project_detail.language.id %}">{{project_detail.language}}</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">{{project_detail.job}}</li>
+                </ol>
+              </nav>
+              {%endif%}
+
+              {%if project_detail.framework%}<!--Creating breadcrumbs for if framework-->
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/">Home</a></li>
+                  <li class="breadcrumb-item"><a href="{% url 'language details' project_detail.framework.language.id %}">{{project_detail.framework.language}}</a></li>
+                  <li class="breadcrumb-item"><a href="{% url 'framework details' project_detail.framework.id %}">{{project_detail.framework}}</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">{{project_detail.job}}</li>
+                </ol>
+              </nav>
+              {%endif%}
+
+          <!--end breadcrumbs-->
+          <script src="{{project_detail.paste}}"></script>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static 'js/bootstrap.js' %}" ></script>
+    <script src="{% static 'jquery-3.3.1.min.js' %}" ></script>
+  </body>
+</html>

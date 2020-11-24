@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-181039223-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-181039223-1');
+    </script>
+    <title>{{languages.language}} Projects and Frameworks</title>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+    .breadcrumb li:hover{
+      text-decoration: underline;
+    }
+    .breadcrumb-item + .breadcrumb-item::before{
+      content: "»";
+    }
+    </style>
+  </head>
+
+  <body>
+
+    <main role="main">
+      <!--Section about the language-->
+      <section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading">{{languages.language}}</h1>
+
+          <img src="{{languages.image.url}}" height="300" />
+          <p class="lead text-muted">These are all the frameworks I've used and projects I've worked on in {{languages.language}}.</p>
+          <p>
+            <a href="{% url 'home' %}" class="btn btn-primary my-2">Back</a>
+          </p>
+        </div>
+      </section>
+
+      <div class="album py-5 bg-light">
+        <div class="container">
+          <!--Creating breadcrumbs-->
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">{{languages.language}}</li>
+            </ol>
+          </nav>
+          <!--End breadcrumbs-->
+          <div class="row">
+            <!--loop through and display frameworks-->
+            {% for frameworks in frameworks.all %}
+            {% if frameworks.language.language == languages.language %} <!--Only display if in the right language-->
+            <div class="col-md-4">
+              <div class="card mb-4 box-shadow">
+                <a href="{% url 'framework details' frameworks.id %}">
+                  <img class="card-img-top" src="{{ frameworks.image.url }}" height="350px" width = "348px" style="margin-bottom:25px;">
+                </a>
+                <div class="card-body">
+                  <a href="{% url 'framework details' frameworks.id %}">
+                  <center>
+                      <h5 class="card-title card-link" style = "margin-bottom:40px;">{{ frameworks.framework }}</p>
+                  </center>
+                  </a>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            <!--End loop-->
+            <!--loop through and display all projects without a framework-->
+            {% for projects in projects.all %}
+            {% if projects.language.language == languages.language %} <!--Only display if they're in the right language-->
+            <div class="col-md-4">
+              <div class="card mb-4 box-shadow">
+                <a href="{% url 'project details' projects.id %}">
+                  <img class="card-img-top" src="{{ projects.image.url }}" height="350px" width = "348px" style="margin-bottom:25px;">
+                </a>
+                <div class="card-body">
+                  <a href="{% url 'project details' projects.id %}">
+                  <center>
+                      <h5 class="card-title card-link">{{ projects.job }}</p>
+                  </center>
+                  </a>
+                  <p class="card-text text-muted text-right">{{ projects.submissionDate }}</p>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            <!--end loop-->
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static 'js/bootstrap.js' %}" ></script>
+    <script src="{% static 'jquery-3.3.1.min.js' %}" ></script>
+  </body>
+</html>
